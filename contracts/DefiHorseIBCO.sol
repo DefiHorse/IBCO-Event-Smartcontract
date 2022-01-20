@@ -48,7 +48,8 @@ contract DefiHorseIBCO is Ownable {
         require(BUSD.allowance(msg.sender, address(this)) >= amount, 'Caller must approve first');
         
         // grab the tokens from msg.sender.
-        BUSD.transferFrom(msg.sender, address(this), amount);
+        BUSD.safeTransferFrom(msg.sender, address(this), amount);
+        
         totalProvided += amount;
         provided[msg.sender] += amount;
         accumulated[msg.sender] = Math.max(accumulated[msg.sender], provided[msg.sender]);
@@ -111,7 +112,7 @@ contract DefiHorseIBCO is Ownable {
 
         if (userAccumulated <= THRESHOLD_USER_AMOUNT) {
             uint256 accumulatedTotal = userAccumulated / DECIMALS;
-            uint256 baseNum = (accumulatedTotal*1709)/(10**9);
+            uint256 baseNum = (accumulatedTotal*accumulatedTotal*1709)/(10**9);
             uint256 secondNum = (68*accumulatedTotal)/100;
             uint256 takeBackPercentage = (baseNum + 71360 - secondNum) / 1000;
             return (userAccumulated * takeBackPercentage) / 100;

@@ -447,8 +447,8 @@
       ]
     },
     "/Users/khanh/Doinp/HorseToken copy/contracts/DefiHorseIBCO.sol": {
-      "lastModificationDate": 1642231622505,
-      "contentHash": "16253eb9bac8e24df7f9f291574a675c",
+      "lastModificationDate": 1642689787702,
+      "contentHash": "8f39116e61a224bc8b4e5835be96e97d",
       "sourceName": "contracts/DefiHorseIBCO.sol",
       "solcConfig": {
         "version": "0.8.2",
