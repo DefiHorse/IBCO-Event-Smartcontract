@@ -30,11 +30,12 @@ contract DefiHorseIBCO is Ownable {
 
 
     uint256 public constant DECIMALS = 10 ** 18; // DefiHorse Token has the same decimals as BNB (18)
-    uint256 public constant START = 1642229590; 
-    uint256 public constant END = START + 20 minutes; 
-    uint256 public constant TOTAL_DISTRIBUTE_AMOUNT = 20040000 * DECIMALS;
-    uint256 constant MINIMAL_PROVIDE_AMOUNT = (2 * DECIMALS)/10;
-    uint256 constant MINIMAL_USER_AMOUNT = (2000 * DECIMALS)/10;
+    uint256 public constant START = 1646917200;
+    uint256 public constant END = START + 3 days;
+    uint256 public constant AFTEREND = END + 30 minutes;
+    uint256 public constant TOTAL_DISTRIBUTE_AMOUNT = 6680000 * DECIMALS;
+    uint256 constant MINIMAL_PROVIDE_AMOUNT = 500000 * DECIMALS;
+    uint256 constant MINIMAL_USER_AMOUNT = 2000 * DECIMALS;
     uint256 constant THRESHOLD_USER_AMOUNT = 200000 * DECIMALS;
     uint256 public totalProvided = 0;
 
@@ -56,24 +57,7 @@ contract DefiHorseIBCO is Ownable {
         emit Deposit(msg.sender, amount);
     }
 
-    /**
-     * @dev Deposits ETH into contract.
-     *
-     * Requirements:
-     * - The offering must be ongoing.
-     */
-    // function deposit() external payable {
-    //     require(START <= block.timestamp, "The offering has not started yet");
-    //     require(block.timestamp <= END, "The offering has already ended");
-    //     require(DEFIHORSE.balanceOf(address(this)) == TOTAL_DISTRIBUTE_AMOUNT, "Insufficient DEFIHORSE token in contract");
-
-    //     totalProvided += msg.value;
-    //     provided[msg.sender] += msg.value;
-
-    //     accumulated[msg.sender] = Math.max(accumulated[msg.sender], provided[msg.sender]);
-
-    //     emit Deposit(msg.sender, msg.value);
-    // }
+    
 
     /**
      * @dev Returns total ETH deposited in the contract of an address.
@@ -90,7 +74,7 @@ contract DefiHorseIBCO is Ownable {
      * - Address has ether deposited in the contract.
      */
     function claim() external {
-        require(block.timestamp > END, "The offering has not ended");
+        require(block.timestamp > AFTEREND, "Only claimable after 30 minutes since the Offering duration ended");
         require(provided[msg.sender] > 0, "Empty balance");
 
         uint256 userShare = provided[msg.sender];
